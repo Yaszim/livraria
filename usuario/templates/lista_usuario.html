@@ -1,0 +1,28 @@
+<hr>
+<center>
+<h1>Lista de Usuario</h1>
+<form action="" method="get">
+    <fieldset>
+        <legend>Pesquisa</legend>
+        <label for="busca">Busca:</label>
+        <input type="text" name="busca" id="busca" value="">
+        <label for="tipo">Tipo:</label>
+        <select name="tipo" id="tipo">
+            <option value="1">Id</option>
+            <option value="2">Nome</option>
+            <option value="3">Usuario</option>
+            <option value="5">Email</option>
+        </select>
+        <button type='submit'>Buscar</button>
+    </fieldset>
+</form>
+<table border=1 >
+    <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Usuario</th>
+        <th>Email</th>
+    </tr>
+    {itens}
+</table>
+</html>

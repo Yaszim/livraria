@@ -20,13 +20,13 @@ require_once './config/config.inc.php';
         <div class="menu">
             <ul class="list-none space-y-2">
                 <li>
-                    <a href="./livro/cadastro.php" class="block p-4 bg-green-300 text-black rounded hover:bg-green-600 transition">Cadastrar um livro</a>
+                    <a href="./livro" class="block p-4 bg-green-300 text-black rounded hover:bg-green-600 transition">Cadastrar um livro</a>
                 </li>
                 <li>
                     <a href="./categoria/" class="block p-4 bg-green-300 text-black rounded hover:bg-green-600 transition">Categoria</a>
                 </li>
                 <li>
-                    <a href="./usuario/cadastro.php" class="block p-4 bg-green-300 text-black rounded hover:bg-green-600 transition">Usuário</a>
+                    <a href="./usuario/" class="block p-4 bg-green-300 text-black rounded hover:bg-green-600 transition">Usuário</a>
                 </li>
                 <li>
                     <a href="./autor/" class="block p-4 bg-green-300 text-black rounded hover:bg-green-600 transition">Autor</a>

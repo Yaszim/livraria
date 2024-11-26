@@ -4,67 +4,56 @@ require_once __DIR__ . '/../config/config.inc.php';
 
 class Livro extends Persistencia{
     private $titulo; 
-    private $ano; 
-    private $capa; 
+    private $ano;  
     private $categoria; 
     private $preco; 
 
-    public function __construct($id = 0, $titulo = "null", $ano = "null", $capa = "null", Categoria $categoria = null, $preco = "null"){
+    public function __construct($id = 0, $titulo = "null", $ano = "null", Categoria $categoria = null, $preco = 0){
         parent::__construct($id);
         $this->setTitulo($titulo);
         $this->setAno($ano);
-        $this->setCapa($capa);
         $this->setCategoria($categoria);
         $this->setPreco($preco);
     }
 
-    public function setTitulo($titulo){
-        if ($titulo)
-            $this->titulo = $titulo;
+    public function setTitulo($novotitulo){
+        if ($novotitulo)
+            $this->titulo = $novotitulo;
         else
             throw new Exception("Erro: título inválido!");
     }
 
-    public function setAno($ano){
-        if ($ano)
-            $this->ano = $ano;
+    public function setAno($novoano){
+        if ($novoano)
+            $this->ano = $novoano;
         else
             throw new Exception("Erro: ano inválida!");
     }
 
-    public function setCapa($capa){
-        if ($capa)
-            $this->capa = $capa;   
-        else
-            throw new Exception("Erro: capa inválida!");
-    }
-
-    public function setCategoria(Categoria $categoria = null){
-        if ($categoria)
-            $this->categoria = $categoria;
+    public function setCategoria(Categoria $novocategoria = null){
+        if ($novocategoria)
+            $this->categoria = $novocategoria;
         else
             throw new Exception("Erro: Deve ser informada uma categoria!");
     }
 
-    public function setPreco($preco){
-        if ($preco)
-            $this->preco = $preco;   
+    public function setPreco($novopreco){
+        if ($novopreco < 0)
+        throw new Exception("Erro: preço inválido!");     
         else
-            throw new Exception("Erro: preço inválido!");
+        $this->preco = $novopreco;  
     }
 
     public function getTitulo():string { return $this->titulo;}
     public function getAno():string { return $this->ano;}
-    public function getCapa():string { return $this->capa;}
     public function getCategoria() { return $this->categoria;}
     public function getPreco() { return $this->preco;}
 
     public function incluir(){
-        $sql = 'INSERT INTO livro (titulo, ano, capa, categoria, preco)   
-                     VALUES (:titulo, :ano, :capa, :categoria, :preco)';
+        $sql = 'INSERT INTO livro (titulo, ano, categoria, preco)   
+                     VALUES (:titulo, :ano, :categoria, :preco)';
         $parametros = array(':titulo'=>$this->getTitulo(),
                             ':ano'=>$this->getAno(),
-                            ':capa'=>$this->getCapa(),
                             ':categoria'=>$this->getCategoria()->getId(),
                             ':preco'=>$this->getPreco());
 
@@ -81,12 +70,11 @@ class Livro extends Persistencia{
 
     public function alterar(){
         $sql = 'UPDATE livro 
-                   SET titulo = :titulo, ano = :ano, capa = :capa, categoria = :categoria, preco = :preco
+                   SET titulo = :titulo, ano = :ano, categoria = :categoria, preco = :preco
                  WHERE id = :id';
         $parametros = array(':id'=>$this->getId(),
                             ':titulo'=>$this->getTitulo(),
                             ':ano'=>$this->getAno(),
-                            ':capa'=>$this->getCapa(),
                             ':categoria'=>$this->getCategoria()->getId(),
                             ':preco'=>$this->getPreco());
         Database::executar($sql, $parametros);
@@ -114,7 +102,7 @@ class Livro extends Persistencia{
         $livros = array();            
         while($registro = $comando->fetch(PDO::FETCH_ASSOC)){    
             $categoria = Categoria::listar(1,$registro['categoria'])[0]; 
-            $livro = new Livro($registro['id'],$registro['titulo'],$registro['ano'],$registro['capa'],$categoria,$registro['preco']);
+            $livro = new Livro($registro['id'],$registro['titulo'],$registro['ano'],$categoria,$registro['preco']);
             array_push($livros,$livro); 
         }
 

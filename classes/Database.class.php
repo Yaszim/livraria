@@ -38,16 +38,13 @@ class Database{
 
     public static function executar($sql,$parametros = array()){
         $conexao = self::conectar();
-        //$conexao->beginTransaction();
         $comando = self::preparar($conexao,$sql);
         $comando = self::vincular($comando, $parametros);
         try {
             $comando->execute();
             self::$lastId = $conexao->lastInsertId();
-            //$conexao->commit();
             return $comando;
         }catch(PDOException $e){
-            //$conexao->rollBack();
             throw new Exception ("Erro ao executar o comando no banco de dados: "
                .$e->getMessage()." - ".$comando->errorInfo()[2]);
         }
